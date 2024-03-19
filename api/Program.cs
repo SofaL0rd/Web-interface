@@ -1,6 +1,12 @@
 
+using api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddSingleton<IQuestService, QuestService>();
+builder.Services.AddSingleton<IQuestLineService, QuestLineService>();
+builder.Services.AddSingleton<IUserService, UserService>();
 
 builder.Services.AddControllers();
 
