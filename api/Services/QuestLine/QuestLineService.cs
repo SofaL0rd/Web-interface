@@ -38,7 +38,7 @@ public class QuestLineService : IQuestLineService
         if (existingQuestLine != null)
         {
             existingQuestLine.Name = questLine.Name;
-            existingQuestLine.Quests = questLine.Quests; // Update quests list
+            existingQuestLine.Quests = questLine.Quests; 
         }
         await Task.CompletedTask;
     }

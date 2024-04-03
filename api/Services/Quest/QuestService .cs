@@ -9,7 +9,6 @@ namespace api.Services
         public QuestService()
         {
             _quests = new List<Quest>();
-            // Add some sample quests
             for (int i = 1; i <= 10; i++)
             {
                 _quests.Add(new Quest
@@ -27,14 +26,14 @@ namespace api.Services
         {
             return await Task.FromResult(_quests);
 
-            
+
         }
 
         public async Task<Quest> CreateQuestAsync(Quest quest)
         {
-             quest.Id = _quests.Count + 1;
+            quest.Id = _quests.Count + 1;
             _quests.Add(quest);
-            
+
             return await Task.FromResult(quest);
         }
 

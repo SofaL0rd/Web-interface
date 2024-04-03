@@ -1,5 +1,6 @@
 using api.Models;
 using api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -16,6 +17,7 @@ namespace api.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Get()
         {
@@ -23,13 +25,7 @@ namespace api.Controllers
             return Ok(users);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<User>> Post([FromBody] User user)
-        {
-            var createdUser = await _userService.CreateUserAsync(user);
-            return CreatedAtAction(nameof(Get), new { id = createdUser.Id }, createdUser);
-        }
-
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] User user)
         {
@@ -42,6 +38,7 @@ namespace api.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

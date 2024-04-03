@@ -1,5 +1,6 @@
 using api.Models;
 using api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -16,6 +17,7 @@ namespace api.Controllers
             _questService = questService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Quest>>> Get()
         {
@@ -23,6 +25,7 @@ namespace api.Controllers
             return Ok(quests);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Quest>> Post([FromBody] Quest quest)
         {
@@ -30,6 +33,7 @@ namespace api.Controllers
             return CreatedAtAction(nameof(Get), new { id = createdQuest.Id }, createdQuest);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Quest quest)
         {
@@ -42,6 +46,7 @@ namespace api.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

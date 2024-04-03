@@ -9,16 +9,6 @@ namespace api.Services
         public UserService()
         {
             _users = new List<User>();
-            // Add some sample users
-            for (int i = 1; i <= 10; i++)
-            {
-                _users.Add(new User
-                {
-                    Id = i,
-                    Username = $"User{i}",
-                    Email = $"user{i}@example.com"
-                });
-            }
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
