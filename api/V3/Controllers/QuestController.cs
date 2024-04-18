@@ -2,12 +2,14 @@ using api.Models;
 using api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Asp.Versioning;
 
 
-namespace api.Controllers
+namespace api.v3.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("3.0")]
     [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")] // Change the route to avoid conflicts
     public class QuestController : ControllerBase
     {
         private readonly IQuestService _questService;

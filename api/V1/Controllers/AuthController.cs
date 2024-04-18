@@ -1,14 +1,13 @@
 using api.Models;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+using Asp.Versioning;
 
-namespace api.Controllers
+
+namespace api.v1.Controllers
 {
+
+    [ApiVersion(1.0, Deprecated = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -20,6 +19,7 @@ namespace api.Controllers
             _authService = authService;
         }
 
+        [MapToApiVersion("1.0")]
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register([FromBody] User user)
         {
@@ -32,6 +32,8 @@ namespace api.Controllers
             return Ok(createdUser);
         }
 
+
+        [MapToApiVersion("1.0")]
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] Login login)
         {

@@ -1,5 +1,5 @@
-﻿using api.Models;
-using api.Services;
+﻿using api.Services;
+using api.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -26,7 +26,7 @@ namespace api.Services
         private async void SeedUsers()
         {
             if (_userService.GetAllUsersAsync().Result.Any())
-                return; 
+                return;
 
             for (int i = 0; i < 10; i++)
             {
@@ -36,11 +36,11 @@ namespace api.Services
                     FirstName = $"Firstame{i + 1}",
                     LastName = $"LastName{i + 1}",
                     Email = $"user{i + 1}@example.com",
-                    DayOfBirth = DateOnly.FromDateTime(DateTime.Now.AddYears(-20 - i)), 
+                    DayOfBirth = DateOnly.FromDateTime(DateTime.Now.AddYears(-20 - i)),
                     Password = $"Password{i + 1}" // Example password
                 };
 
-               await RegisterAsync(user);
+                await RegisterAsync(user);
             }
         }
 
@@ -74,7 +74,7 @@ namespace api.Services
             {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Role, "User") 
+                    new Claim(ClaimTypes.Role, "User")
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -82,11 +82,11 @@ namespace api.Services
 
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
-                    claims:claims,
-                    expires:DateTime.Now.AddDays(1),
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(1),
                     signingCredentials: cred
                 );
-            
+
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;

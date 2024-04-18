@@ -1,55 +1,58 @@
 ﻿using api.Models;
-using api.Services;
 
-public class QuestLineService : IQuestLineService
+namespace api.Services
 {
-    private readonly List<QuestLine> _questLines;
 
-    public QuestLineService()
+    public class QuestLineService : IQuestLineService
     {
-        _questLines = new List<QuestLine>();
-        for (int i = 1; i <= 10; i++)
+        private readonly List<QuestLine> _questLines;
+
+        public QuestLineService()
         {
-            _questLines.Add(new QuestLine
+            _questLines = new List<QuestLine>();
+            for (int i = 1; i <= 10; i++)
             {
-                Id = i,
-                Name = $"Quest Line {i}",
-                Description=$"Description for Quest Line {i}",
-                Quests = new List<Quest>() 
-            });
+                _questLines.Add(new QuestLine
+                {
+                    Id = i,
+                    Name = $"Quest Line {i}",
+                    Description = $"Description for Quest Line {i}",
+                    Quests = new List<Quest>()
+                });
+            }
         }
-    }
 
-    public async Task<IEnumerable<QuestLine>> GetAllQuestLinesAsync()
-    {
-        return await Task.FromResult(_questLines);
-    }
-
-    public async Task<QuestLine> CreateQuestLineAsync(QuestLine questLine)
-    {
-        questLine.Id = _questLines.Count + 1;
-        _questLines.Add(questLine);
-        return await Task.FromResult(questLine);
-    }
-
-    public async Task UpdateQuestLineAsync(QuestLine questLine)
-    {
-        var existingQuestLine = _questLines.FirstOrDefault(ql => ql.Id == questLine.Id);
-        if (existingQuestLine != null)
+        public async Task<IEnumerable<QuestLine>> GetAllQuestLinesAsync()
         {
-            existingQuestLine.Name = questLine.Name;
-            existingQuestLine.Quests = questLine.Quests; 
+            return await Task.FromResult(_questLines);
         }
-        await Task.CompletedTask;
-    }
 
-    public async Task DeleteQuestLineAsync(int id)
-    {
-        var questLineToRemove = _questLines.FirstOrDefault(ql => ql.Id == id);
-        if (questLineToRemove != null)
+        public async Task<QuestLine> CreateQuestLineAsync(QuestLine questLine)
         {
-            _questLines.Remove(questLineToRemove);
+            questLine.Id = _questLines.Count + 1;
+            _questLines.Add(questLine);
+            return await Task.FromResult(questLine);
         }
-        await Task.CompletedTask;
+
+        public async Task UpdateQuestLineAsync(QuestLine questLine)
+        {
+            var existingQuestLine = _questLines.FirstOrDefault(ql => ql.Id == questLine.Id);
+            if (existingQuestLine != null)
+            {
+                existingQuestLine.Name = questLine.Name;
+                existingQuestLine.Quests = questLine.Quests;
+            }
+            await Task.CompletedTask;
+        }
+
+        public async Task DeleteQuestLineAsync(int id)
+        {
+            var questLineToRemove = _questLines.FirstOrDefault(ql => ql.Id == id);
+            if (questLineToRemove != null)
+            {
+                _questLines.Remove(questLineToRemove);
+            }
+            await Task.CompletedTask;
+        }
     }
 }

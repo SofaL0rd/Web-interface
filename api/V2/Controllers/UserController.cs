@@ -2,12 +2,14 @@ using api.Models;
 using api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Asp.Versioning;
 
 
-namespace api.Controllers
+namespace api.v2.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion(2.0)]
     [ApiController]
+    [Route("api/[controller]")] 
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -17,6 +19,7 @@ namespace api.Controllers
             _userService = userService;
         }
 
+        [MapToApiVersion("2.0")]
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Get()
@@ -25,6 +28,7 @@ namespace api.Controllers
             return Ok(users);
         }
 
+        [MapToApiVersion("2.0")]
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] User user)
@@ -38,6 +42,7 @@ namespace api.Controllers
             return NoContent();
         }
 
+        [MapToApiVersion("2.0")]
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
