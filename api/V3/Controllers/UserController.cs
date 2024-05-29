@@ -19,16 +19,16 @@ namespace api.Controllers
             _userService = userService;
         }
 
-        [Authorize]
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<User>>> Get()
         {
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
 
-        [Authorize]
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody] User user)
         {
             if (id != user.Id)
@@ -40,8 +40,8 @@ namespace api.Controllers
             return NoContent();
         }
 
-        [Authorize]
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             await _userService.DeleteUserAsync(id);

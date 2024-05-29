@@ -13,7 +13,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<IQuestService, QuestService>();
 builder.Services.AddSingleton<IQuestLineService, QuestLineService>();
 builder.Services.AddSingleton< api.V1.TestService.ITestService, api.V1.TestService.TestService>();
@@ -91,6 +91,7 @@ builder.Services
                         options.GroupNameFormat = "'v'VVV";
                         options.SubstituteApiVersionInUrl = true;
                     });
+builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 
@@ -111,10 +112,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseApplicationInsightsRequestTelemetry();
 
 app.Run();

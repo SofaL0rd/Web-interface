@@ -23,6 +23,7 @@ namespace api.v3.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Quest>>> Get()
         {
+
             var quests = await _questService.GetAllQuestsAsync();
             return Ok(quests);
         }

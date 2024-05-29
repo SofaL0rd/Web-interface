@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Asp.Versioning;
 using ClosedXML.Excel;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 
 
 namespace api.v3.Controllers
@@ -14,10 +16,12 @@ namespace api.v3.Controllers
     public class TestController : ControllerBase
     {
         private readonly ITestService _testService;
+        private readonly TelemetryClient _telemetryClient;
 
-        public TestController(ITestService testService)
+        public TestController(ITestService testService, TelemetryClient telemetryClient)
         {
             _testService = testService;
+            _telemetryClient = telemetryClient;
         }
 
         [MapToApiVersion("3.0")]
@@ -25,9 +29,12 @@ namespace api.v3.Controllers
         [Authorize]
         public IActionResult Get()
         {
-            byte[] fileContents = _testService.GetExcelFile();
-            
-            return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "example.xlsx");
+            using (_telemetryClient.StartOperation<RequestTelemetry>("TestV3Request"))
+            {
+                byte[] fileContents = _testService.GetExcelFile();
+                return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "example.xlsx");
+            }
+
         }
     }
 }
